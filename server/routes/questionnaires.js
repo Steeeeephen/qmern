@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { nanoid } = require('nanoid');
 const Questionnaire = require('../models/Questionnaire');
 const Submission = require('../models/Submission')
+
+const questionnaireController = require('../controllers/questionnaireController')
 
 router.get('/test', (req, res) => {
     res.json({message: 'Test route works!'});
@@ -11,21 +12,7 @@ router.get('/test', (req, res) => {
 
 
 // Creating a new questionnaire
-router.post('/', async (req,res) => {
-    try {
-        const questionnaire = new Questionnaire({
-            title: req.body.title,
-            description: req.body.description,
-            uniqueID: nanoid(10) // Using nanoid to generate a unique 10 character id.
-        })
-
-        await questionnaire.save();
-        res.status(201).json(questionnaire);
-        
-    } catch (error) {
-        res.status(500).json({ error: error.message})
-    }
-});
+router.post('/', questionnaireController.createQuestionnaire);
 
 // Get all questionnaires
 router.get('/', async (req,res) => {
