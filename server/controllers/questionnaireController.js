@@ -17,6 +17,40 @@ const createQuestionnaire = async (req,res) => {
     }
 }
 
+const getQuestionnaires = async (req,res) => {
+    try {
+        const questionnaires = await Questionnaire.find({});
+        res.json(questionnaires);
+    } catch (error) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+const getQuestionnaireByUniqueID = async (req,res) => {
+    try {
+        const questionnaire = await Questionnaire.findOne({
+            uniqueID: req.params.uniqueId
+        })
+
+        if (!questionnaire) {
+            return res.status(404).json({ error: 'Questionnaire not found' });
+        }
+
+        res.json(questionnaire);
+
+    } catch (error) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+
+
+
+
+
+
 module.exports = {
-    createQuestionnaire
+    createQuestionnaire,
+    getQuestionnaires,
+    getQuestionnaireByUniqueID,
 }

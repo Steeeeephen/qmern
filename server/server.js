@@ -8,12 +8,16 @@ const submissionRoutes = require('./routes/submission')
 const app = express();
 const PORT = 3000;
 
+connectToDB();
+
+
 app.use(express.json());
 
 app.use('/api/questionnaires', questionnaireRoutes );
 app.use('/api/submissions', submissionRoutes);
 
-connectToDB();
+
+
 
 
 app.listen(PORT, () => {

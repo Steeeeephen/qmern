@@ -15,32 +15,10 @@ router.get('/test', (req, res) => {
 router.post('/', questionnaireController.createQuestionnaire);
 
 // Get all questionnaires
-router.get('/', async (req,res) => {
-    try {
-        const questionnaires = await Questionnaire.find({});
-        res.json(questionnaires);
-    } catch (error) {
-        res.status(500).json({ error: err.message });
-    }
-})
+router.get('/', questionnaireController.getQuestionnaires)
 
-// Get questionnaire by uniqueID
-router.get('/link/:uniqueId', async (req,res) => {
-    try {
-        const questionnaire = await Questionnaire.findOne({
-            uniqueID: req.params.uniqueId
-        })
-
-        if (!questionnaire) {
-            return res.status(404).json({ error: 'Questionnaire not found' });
-        }
-
-        res.json(questionnaire);
-
-    } catch (error) {
-        res.status(500).json({ error: err.message });
-    }
-})
+// Get questionnaire by uniqueID - This would be the customer link.
+router.get('/link/:uniqueId', questionnaireController.getQuestionnaireByUniqueID)
 
 // Get questionnaire by ID
 router.get('/:id', async (req, res) => {
